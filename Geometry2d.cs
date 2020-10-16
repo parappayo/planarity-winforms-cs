@@ -88,7 +88,10 @@ namespace BushidoBurrito.Planarity
 
         static public Point<float> IntersectionPoint(Line<float> a, Line<float> b)
         {
-            throw new NotImplementedException();
+            float x = IntersectionX(a, b);
+            if (float.IsNaN(x)) { return new Point<float>(float.NaN, float.NaN); }
+            float y = ValueAtX(a, x);
+            return new Point<float>(x, y);
         }
 
         static public bool SharesPoint(LineSegment<float> a, LineSegment<float> b)
@@ -101,7 +104,11 @@ namespace BushidoBurrito.Planarity
 
         static public bool Intersects(LineSegment<float> a, LineSegment<float> b)
         {
-            throw new NotImplementedException();
+            // not correct, but close enough for Planarity gameplay
+            if (SharesPoint(a, b)) { return false; }
+
+            return (IsClockwise(a.A, b.A, b.B) != IsClockwise(a.B, b.A, b.B)) &&
+                (IsClockwise(a.A, a.B, b.A) != IsClockwise(a.A, a.B, b.B));
         }
     }
 }

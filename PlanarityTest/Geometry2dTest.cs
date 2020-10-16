@@ -1,5 +1,4 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using BushidoBurrito.Planarity;
 
 namespace BushidoBurrito.PlanarityTest
@@ -136,7 +135,7 @@ namespace BushidoBurrito.PlanarityTest
             var lineC = new LineSegment<float>
             {
                 A = new Point<float>(0F, 0F),
-                B = new Point<float>(0.5F, 0F)
+                B = new Point<float>(0.5F, 2F)
             };
 
             Assert.IsTrue(Geometry2d.Intersects(lineA, lineB));
