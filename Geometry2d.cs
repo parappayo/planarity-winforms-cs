@@ -22,26 +22,16 @@ namespace BushidoBurrito.Planarity
 
     public class Geometry2d
     {
-        static public float Slope(float a_x, float a_y, float b_x, float b_y)
-        {
-            var dx = a_x - b_x;
-            if (Math.Abs(dx) <= float.Epsilon) { return float.NaN; }
-            return (a_y - b_y) / dx;
-        }
-
         static public float Slope(Point<float> a, Point<float> b)
         {
-            return Slope(a.X, a.Y, b.X, b.Y);
-        }
-
-        static public bool IsClockwise(float a_x, float a_y, float b_x, float b_y, float c_x, float c_y)
-        {
-            return (b_y - a_y) * (c_x - a_x) > (c_y - a_y) * (b_x - a_x);
+            var dx = a.X - b.X;
+            if (Math.Abs(dx) <= float.Epsilon) { return float.NaN; }
+            return (a.Y - b.Y) / dx;
         }
 
         static public bool IsClockwise(Point<float> a, Point<float> b, Point<float> c)
         {
-            return IsClockwise(a.X, a.Y, b.X, b.Y, c.X, c.Y);
+            return (b.Y - a.Y) * (c.X - a.X) > (c.Y - a.Y) * (b.X - a.X);
         }
 
         static public float ValueAtX(Line<float> line, float x)

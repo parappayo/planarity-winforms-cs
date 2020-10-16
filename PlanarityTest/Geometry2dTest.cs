@@ -19,7 +19,10 @@ namespace BushidoBurrito.PlanarityTest
         [TestCase(1, 1, 1, 0, Result = float.NaN)]
         public float TestSlope(float a_x, float a_y, float b_x, float b_y)
         {
-            return Geometry2d.Slope(a_x, a_y, b_x, b_y);
+            var a = new Point<float>(a_x, a_y);
+            var b = new Point<float>(b_x, b_y);
+
+            return Geometry2d.Slope(a, b);
         }
 
         [TestCase(0, 0, 0, 0, 0, 0, Result = false)]
@@ -34,7 +37,11 @@ namespace BushidoBurrito.PlanarityTest
         [TestCase(5, 5, 6, 4, 7, 3, Result = false)]
         public bool TestIsClockwise(float a_x, float a_y, float b_x, float b_y, float c_x, float c_y)
         {
-            return Geometry2d.IsClockwise(a_x, a_y, b_x, b_y, c_x, c_y);
+            var a = new Point<float>(a_x, a_y);
+            var b = new Point<float>(b_x, b_y);
+            var c = new Point<float>(c_x, c_y);
+
+            return Geometry2d.IsClockwise(a, b, c);
         }
 
         [TestCase(1, -1, 0, 1, Result = 0.5)]
