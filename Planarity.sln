@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Planarity", "Planarity.csproj", "{A3436E2A-C49B-45B0-8E7B-3CA2ABA763EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanarityTest", "PlanarityTest\PlanarityTest.csproj", "{345A0750-2236-4724-922A-7F39A4142B6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A3436E2A-C49B-45B0-8E7B-3CA2ABA763EB}.Debug|x86.ActiveCfg = Debug|x86
+		{A3436E2A-C49B-45B0-8E7B-3CA2ABA763EB}.Debug|x86.Build.0 = Debug|x86
+		{A3436E2A-C49B-45B0-8E7B-3CA2ABA763EB}.Release|x86.ActiveCfg = Release|x86
+		{A3436E2A-C49B-45B0-8E7B-3CA2ABA763EB}.Release|x86.Build.0 = Release|x86
+		{345A0750-2236-4724-922A-7F39A4142B6F}.Debug|x86.ActiveCfg = Debug|x86
+		{345A0750-2236-4724-922A-7F39A4142B6F}.Debug|x86.Build.0 = Debug|x86
+		{345A0750-2236-4724-922A-7F39A4142B6F}.Release|x86.ActiveCfg = Release|x86
+		{345A0750-2236-4724-922A-7F39A4142B6F}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+EndGlobal

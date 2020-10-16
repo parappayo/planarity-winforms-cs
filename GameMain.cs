@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace BushidoBurrito.Planarity
 {
-    public class PlanarityMain
+    public class GameMain
     {
         [STAThread]
         public static void Main(string[] args)

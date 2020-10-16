@@ -7,8 +7,18 @@ There is an [elegant implementation](https://www.jasondavies.com/planarity/) in 
 
 The goal for this version is to sharpen my C# and WinForms coding skills. A working [implementation in Python](https://github.com/parappayo/planarity-py) is used as a reference.
 
+## Setup
+
+The Makefile is provided if you have `mono-csc` installed and want to build without an IDE. Build and run with `make run`.
+
+Getting unit tests to work was a pain so I installed [MonoDevelop](https://www.monodevelop.com/). To be able to use NUnit. I would have used xUnit but NUnit was included.
+
+[Visual Studio Community](https://visualstudio.microsoft.com/vs/community/) will also work.
+
 ## References
 
 * [Mono](https://www.mono-project.com/)
+* [MonoDevelop](https://www.monodevelop.com/)
+* [NUnit](https://nunit.org/)
 * [xUnit](https://xunit.net/)
 * [System.Drawing.BufferedGraphics](https://docs.microsoft.com/en-us/dotnet/api/system.drawing.bufferedgraphics?view=netframework-4.7.2)
