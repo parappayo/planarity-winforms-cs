@@ -20,13 +20,52 @@ namespace BushidoBurrito.Planarity
         public T Slope;
     }
 
+    public struct LineSegment<T>
+    {
+        public Point<T> A;
+        public Point<T> B;
+    }
+
     public class Geometry2d
     {
+        static public bool NearlyEqual(float a, float b, float epsilon)
+        {
+            const double MinNormal = 2.2250738585072014E-308d;
+
+            if (a.Equals(b)) { return true; }
+
+            float absA = Math.Abs(a);
+            float absB = Math.Abs(b);
+            float diff = Math.Abs(a - b);
+
+            if (absA < float.Epsilon ||
+                absB < float.Epsilon ||
+                absA + absB < MinNormal)
+            {
+                return diff < epsilon * MinNormal;
+            }
+
+            return diff / (absA + absB) < epsilon;
+        }
+
+        static public bool Equal(Point<float> a, Point<float> b)
+        {
+            const float epsilon = 0.001F;
+
+            return NearlyEqual(a.X, b.X, epsilon) &&
+                NearlyEqual(a.Y, b.Y, epsilon);
+        }
+
         static public float Slope(Point<float> a, Point<float> b)
         {
             var dx = a.X - b.X;
             if (Math.Abs(dx) <= float.Epsilon) { return float.NaN; }
             return (a.Y - b.Y) / dx;
+        }
+
+        static public float Slope(LineSegment<float> line)
+        {
+            return Slope(line.A, line.B);
         }
 
         static public bool IsClockwise(Point<float> a, Point<float> b, Point<float> c)
@@ -45,6 +84,24 @@ namespace BushidoBurrito.Planarity
             float delta_slope = a.Slope - b.Slope;
             if (Math.Abs(delta_slope) < float.Epsilon) { return float.NaN; }
             return -delta_y_intercept / delta_slope;
+        }
+
+        static public Point<float> IntersectionPoint(Line<float> a, Line<float> b)
+        {
+            throw new NotImplementedException();
+        }
+
+        static public bool SharesPoint(LineSegment<float> a, LineSegment<float> b)
+        {
+            return Equal(a.A, b.A) ||
+                Equal(a.A, b.B) ||
+                Equal(a.B, b.A) ||
+                Equal(a.B, b.B);
+        }
+
+        static public bool Intersects(LineSegment<float> a, LineSegment<float> b)
+        {
+            throw new NotImplementedException();
         }
     }
 }

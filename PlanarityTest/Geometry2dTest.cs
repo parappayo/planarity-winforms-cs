@@ -7,6 +7,15 @@ namespace BushidoBurrito.PlanarityTest
     [TestFixture()]
     public class Geometry2dTest
     {
+        [TestCase(0F, 0F, 0.01F, Result = true)]
+        [TestCase(1F, 2F, 0.01F, Result = false)]
+        [TestCase(float.PositiveInfinity, float.NegativeInfinity, 0.01F, Result = false)]
+        [TestCase(float.NaN, float.NaN, 0.01F, Result = true)]
+        public bool TestNearlyEqual(float a, float b, float epsilon)
+        {
+            return Geometry2d.NearlyEqual(a, b, epsilon);
+        }
+
         [TestCase(0, 0, 1, 0, Result = 0)]
         [TestCase(0, 0, 1, 1, Result = 1)]
         [TestCase(1, 1, 0, 0, Result = 1)]
@@ -61,6 +70,78 @@ namespace BushidoBurrito.PlanarityTest
             };
 
             return Geometry2d.IntersectionX(a, b);
+        }
+
+        [Test()]
+        public void TestIntersectionPoint()
+        {
+            var lineA = new Line<float>()
+            {
+                YIntercept = -1,
+                Slope = 1
+            };
+
+            var lineB = new Line<float>()
+            {
+                YIntercept = 1,
+                Slope = -1
+            };
+
+            var result = Geometry2d.IntersectionPoint(lineA, lineB);
+
+            Assert.AreEqual(result.X, 1F);
+            Assert.AreEqual(result.Y, 0F);
+        }
+
+        [Test()]
+        public void TestSharesPoint()
+        {
+            var lineA = new LineSegment<float>
+            {
+                A = new Point<float>(0, 0),
+                B = new Point<float>(1, 1)
+            };
+
+            var lineB = new LineSegment<float>
+            {
+                A = new Point<float>(1, 1),
+                B = new Point<float>(2, 2)
+            };
+
+            var lineC = new LineSegment<float>
+            {
+                A = new Point<float>(2, 2),
+                B = new Point<float>(3, 3)
+            };
+
+            Assert.IsTrue(Geometry2d.SharesPoint(lineA, lineB));
+            Assert.IsFalse(Geometry2d.SharesPoint(lineA, lineC));
+        }
+
+        [Test()]
+        public void TestIntersects()
+        {
+            var lineA = new LineSegment<float>
+            {
+                A = new Point<float>(0, -1),
+                B = new Point<float>(2, 1)
+            };
+
+            var lineB = new LineSegment<float>
+            {
+                A = new Point<float>(0, 1),
+                B = new Point<float>(2, -1)
+            };
+
+            var lineC = new LineSegment<float>
+            {
+                A = new Point<float>(0F, 0F),
+                B = new Point<float>(0.5F, 0F)
+            };
+
+            Assert.IsTrue(Geometry2d.Intersects(lineA, lineB));
+            Assert.IsTrue(Geometry2d.Intersects(lineB, lineC));
+            Assert.IsFalse(Geometry2d.Intersects(lineA, lineC));
         }
     }
 }
