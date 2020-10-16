@@ -14,6 +14,12 @@ namespace BushidoBurrito.Planarity
         }
     }
 
+    public struct Line<T>
+    {
+        public T YIntercept;
+        public T Slope;
+    }
+
     public class Geometry2d
     {
         static public float Slope(float a_x, float a_y, float b_x, float b_y)
@@ -36,6 +42,19 @@ namespace BushidoBurrito.Planarity
         static public bool IsClockwise(Point<float> a, Point<float> b, Point<float> c)
         {
             return IsClockwise(a.X, a.Y, b.X, b.Y, c.X, c.Y);
+        }
+
+        static public float ValueAtX(Line<float> line, float x)
+        {
+            return line.YIntercept + line.Slope * x;
+        }
+
+        static public float IntersectionX(Line<float> a, Line<float> b)
+        {
+            float delta_y_intercept = a.YIntercept - b.YIntercept;
+            float delta_slope = a.Slope - b.Slope;
+            if (Math.Abs(delta_slope) < float.Epsilon) { return float.NaN; }
+            return -delta_y_intercept / delta_slope;
         }
     }
 }

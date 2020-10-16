@@ -36,5 +36,24 @@ namespace BushidoBurrito.PlanarityTest
         {
             return Geometry2d.IsClockwise(a_x, a_y, b_x, b_y, c_x, c_y);
         }
+
+        [TestCase(1, -1, 0, 1, Result = 0.5)]
+        [TestCase(0, 0, 1, 0, Result = float.NaN)]
+        public float TestIntersectionX(float a_y_intercept, float a_slope, float b_y_intercept, float b_slope)
+        {
+            var a = new Line<float>
+            {
+                YIntercept = a_y_intercept,
+                Slope = a_slope
+            };
+
+            var b = new Line<float>
+            {
+                YIntercept = b_y_intercept,
+                Slope = b_slope
+            };
+
+            return Geometry2d.IntersectionX(a, b);
+        }
     }
 }
