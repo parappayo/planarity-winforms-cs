@@ -118,5 +118,25 @@ namespace BushidoBurrito.Planarity
             return (IsClockwise(a.A, b.A, b.B) != IsClockwise(a.B, b.A, b.B)) &&
                 (IsClockwise(a.A, a.B, b.A) != IsClockwise(a.A, a.B, b.B));
         }
+
+        static public Point<float>[] CirclePoints(Point<float> center, float radius, int pointCount)
+        {
+            var result = new Point<float>[pointCount];
+            float theta = 0F;
+            float thetaStep = (2F * (float)Math.PI) / pointCount;
+
+            for (int i = 0; i < pointCount; i++)
+            {
+                result[i] = new Point<float>()
+                {
+                    X = center.X + (float)Math.Cos(theta) * radius,
+                    Y = center.Y + (float)Math.Sin(theta) * radius
+                };
+
+                theta += thetaStep;
+            }
+
+            return result;
+        }
     }
 }

@@ -3,48 +3,6 @@ using System.Collections.Generic;
 
 namespace BushidoBurrito.Planarity
 {
-    /// <summary>
-    /// Draggable game piece, a dot
-    /// </summary>
-    public class Pip
-    {
-        public float X;
-        public float Y;
-
-        public Pip(Point<float> p)
-        {
-            X = p.X;
-            Y = p.Y;
-        }
-
-        public Point<float> Point()
-        {
-            return new Point<float>(X, Y);
-        }
-    }
-
-    /// <summary>
-    /// An edge in the graph theory sense
-    /// </summary>
-    public class Edge<T> where T : class
-    {
-        public T From;
-        public T To;
-
-        static public List<T> Flatten(List<Edge<T>> edges)
-        {
-            var result = new List<T>();
-
-            foreach (var edge in edges)
-            {
-                result.Add(edge.From);
-                result.Add(edge.To);
-            }
-
-            return result;
-        }
-    }
-
     public struct Intersection
     {
         public Line<float> FromLine;
