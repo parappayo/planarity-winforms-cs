@@ -56,6 +56,14 @@ namespace BushidoBurrito.Planarity
                 NearlyEqual(a.Y, b.Y, epsilon);
         }
 
+        static public bool Equal(Line<float> a, Line<float> b)
+        {
+            const float epsilon = 0.001F;
+
+            return NearlyEqual(a.YIntercept, b.YIntercept, epsilon) &&
+                NearlyEqual(a.Slope, b.Slope, epsilon);
+        }
+
         static public float Slope(Point<float> a, Point<float> b)
         {
             var dx = a.X - b.X;

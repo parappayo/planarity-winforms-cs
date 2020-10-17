@@ -88,8 +88,8 @@ namespace BushidoBurrito.PlanarityTest
 
             var result = Geometry2d.IntersectionPoint(lineA, lineB);
 
-            Assert.AreEqual(result.X, 1F);
-            Assert.AreEqual(result.Y, 0F);
+            Assert.AreEqual(1F, result.X);
+            Assert.AreEqual(0F, result.Y);
         }
 
         [Test()]
