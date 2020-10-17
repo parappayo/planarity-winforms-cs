@@ -32,7 +32,6 @@
     <Compile Include="GameMain.cs" />
     <Compile Include="LevelGenerator.cs" />
     <Compile Include="UniqRandInt.cs" />
-    <Compile Include="Intersection.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Drawing" />

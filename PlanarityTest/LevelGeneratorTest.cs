@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 using BushidoBurrito.Planarity;
 
 namespace BushidoBurrito.PlanarityTest
@@ -13,7 +14,13 @@ namespace BushidoBurrito.PlanarityTest
             levelGenerator.GenerateLevel(5);
 
             Assert.IsTrue(levelGenerator.Connections.Count > 0);
-            Assert.IsTrue(levelGenerator.Points.Count > 0);
+            Assert.IsTrue(levelGenerator.Pips.Count > 0);
+
+            var edgePips = Edge<Pip>.Flatten(levelGenerator.Connections);
+            foreach (var pip in levelGenerator.Pips)
+            {
+                Assert.Contains(pip, edgePips);
+            }
         }
     }
 }

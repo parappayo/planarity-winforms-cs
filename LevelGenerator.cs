@@ -3,10 +3,79 @@ using System.Collections.Generic;
 
 namespace BushidoBurrito.Planarity
 {
+    /// <summary>
+    /// Draggable game piece, a dot
+    /// </summary>
+    public class Pip
+    {
+        public float X;
+        public float Y;
+
+        public Pip(Point<float> p)
+        {
+            X = p.X;
+            Y = p.Y;
+        }
+
+        public Point<float> Point()
+        {
+            return new Point<float>(X, Y);
+        }
+    }
+
+    /// <summary>
+    /// An edge in the graph theory sense
+    /// </summary>
+    public class Edge<T> where T : class
+    {
+        public T From;
+        public T To;
+
+        static public List<T> Flatten(List<Edge<T>> edges)
+        {
+            var result = new List<T>();
+
+            foreach (var edge in edges)
+            {
+                result.Add(edge.From);
+                result.Add(edge.To);
+            }
+
+            return result;
+        }
+    }
+
+    public struct Intersection
+    {
+        public Line<float> FromLine;
+        public Line<float> ToLine;
+        public Point<float> Point;
+
+        public Intersection(Line<float> fromLine, Line<float> toLine)
+        {
+            FromLine = fromLine;
+            ToLine = toLine;
+            Point = Geometry2d.IntersectionPoint(fromLine, toLine);
+        }
+
+        public bool IsValid()
+        {
+            return !float.IsNaN(Point.X) &&
+                !float.IsNaN(Point.Y);
+        }
+
+        public bool IsOnLine(Line<float> line)
+        {
+            return IsValid() &&
+                (Geometry2d.Equal(line, FromLine) ||
+                Geometry2d.Equal(line, ToLine));
+        }
+    }
+
     public class LevelGenerator
     {
-        public List<Point<float>> Points;
-        public List<LineSegment<float>> Connections;
+        public List<Pip> Pips;
+        public List<Edge<Pip>> Connections;
 
         private Line<float> RandomLine(UniqRandInt yIntercepts, UniqRandInt slopes)
         {
@@ -44,49 +113,49 @@ namespace BushidoBurrito.Planarity
             }
         }
 
-        private List<Point<float>> FindPointsAlongLine(
+        private List<Pip> FindPipsAlongLine(
             Line<float> line,
             List<Intersection> intersections)
         {
-            var result = new List<Point<float>>();
+            var result = new List<Pip>();
 
             foreach (var i in intersections)
             {
                 if (i.IsOnLine(line))
                 {
-                    result.Add(i.Point);
+                    result.Add(new Pip(i.Point));
                 }
             }
 
             return result;
         }
 
-        private void FindPointNeighbourPairs(
+        private void FindPips(
             List<Line<float>> lines,
             List<Intersection> intersections,
-            List<Point<float>> points,
-            List<LineSegment<float>> connections)
+            List<Pip> pips,
+            List<Edge<Pip>> connections)
         {
             foreach (var line in lines)
             {
-                var pointsOnLine = FindPointsAlongLine(line, intersections);
+                var pipsOnLine = FindPipsAlongLine(line, intersections);
 
-                var previous = new Point<float>(float.NaN, float.NaN);
+                Pip previous = null;
 
-                foreach (var point in pointsOnLine)
+                foreach (var pip in pipsOnLine)
                 {
-                    points.Add(point);
+                    pips.Add(pip);
 
-                    if (!float.IsNaN(previous.X))
+                    if (previous != null)
                     {
-                        connections.Add(new LineSegment<float>()
+                        connections.Add(new Edge<Pip>()
                         {
-                            A = previous,
-                            B = point
+                            From = previous,
+                            To = pip
                         });
                     }
 
-                    previous = point;
+                    previous = pip;
                 }
             }
         }
@@ -95,13 +164,13 @@ namespace BushidoBurrito.Planarity
         {
             var lines = new List<Line<float>>();
             var intersections = new List<Intersection>();
-            var points = new List<Point<float>>();
-            var connections = new List<LineSegment<float>>();
+            var pips = new List<Pip>();
+            var connections = new List<Edge<Pip>>();
 
             GenerateIntersections(lineCount, lines, intersections);
-            FindPointNeighbourPairs(lines, intersections, points, connections);
+            FindPips(lines, intersections, pips, connections);
 
-            Points = points;
+            Pips = pips;
             Connections = connections;
         }
     }
