@@ -102,7 +102,8 @@ namespace BushidoBurrito.Planarity
 
         private RectangleF ToRectangleF(Pip pip)
         {
-            return new RectangleF(pip.X, pip.Y, 50, 50);
+            float size = 50F;
+            return new RectangleF(pip.X - size/2F, pip.Y - size/2F, size, size);
         }
 
         private void DrawConnection(Edge<Pip> connection, Graphics graphics)
