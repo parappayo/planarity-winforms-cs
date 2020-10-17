@@ -123,16 +123,16 @@ namespace BushidoBurrito.Planarity
 
         private void DrawFrame()
         {
-            var graphics = _bufferedGraphics.Graphics;
+            ClearBuffer(_bufferedGraphics, _context, Brushes.Black);
 
             foreach (var connection in _gameState.Connections)
             {
-                DrawConnection(connection, graphics);
+                DrawConnection(connection, _bufferedGraphics.Graphics);
             }
 
             foreach (var pip in _gameState.Pips)
             {
-                DrawPip(pip, graphics);
+                DrawPip(pip, _bufferedGraphics.Graphics);
             }
 
             this.Refresh();

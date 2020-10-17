@@ -74,5 +74,28 @@ namespace BushidoBurrito.Planarity
 
             ArrangeInCircle(Pips);
         }
+
+        public Pip FindPip(Point<float> position, float radius)
+        {
+            float radiusSquared = radius * radius;
+
+            foreach (var pip in Pips)
+            {
+                float dx = pip.X - position.X;
+                float dy = pip.Y - position.Y;
+
+                if (dx * dx + dy * dy < radiusSquared)
+                {
+                    return pip;
+                }
+            }
+
+            return null;
+        }
+
+        public void CheckWinCondition()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
