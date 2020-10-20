@@ -21,6 +21,11 @@ namespace BushidoBurrito.Planarity
             X = p.X;
             Y = p.Y;
         }
+
+        public Point<float> Point
+        {
+            get { return new Point<float>(X, Y); }
+        }
     }
 
     /// <summary>

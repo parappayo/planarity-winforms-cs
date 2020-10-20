@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BushidoBurrito.Planarity
 {
-    public struct Intersection
+    public class Intersection
     {
         public Line<float> FromLine;
         public Line<float> ToLine;
@@ -71,17 +71,17 @@ namespace BushidoBurrito.Planarity
             }
         }
 
-        private List<Pip> FindPipsAlongLine(
+        private List<Point<float>> FindIntersectionPoints(
             Line<float> line,
             List<Intersection> intersections)
         {
-            var result = new List<Pip>();
+            var result = new List<Point<float>>();
 
             foreach (var i in intersections)
             {
                 if (i.IsOnLine(line))
                 {
-                    result.Add(new Pip(i.Point));
+                    result.Add(i.Point);
                 }
             }
 
@@ -94,15 +94,27 @@ namespace BushidoBurrito.Planarity
             List<Pip> pips,
             List<Edge<Pip>> connections)
         {
+            var visitedPoints = new Dictionary<Point<float>, Pip>();
+
             foreach (var line in lines)
             {
-                var pipsOnLine = FindPipsAlongLine(line, intersections);
+                var intersectionPoints = FindIntersectionPoints(line, intersections);
 
                 Pip previous = null;
 
-                foreach (var pip in pipsOnLine)
+                foreach (var point in intersectionPoints)
                 {
-                    pips.Add(pip);
+                    Pip pip = null;
+
+                    if (visitedPoints.ContainsKey(point))
+                    {
+                        pip = visitedPoints[point];
+                    }
+                    else
+                    {
+                        pip = new Pip(point);
+                        visitedPoints[point] = pip;
+                    }
 
                     if (previous != null)
                     {
@@ -116,6 +128,8 @@ namespace BushidoBurrito.Planarity
                     previous = pip;
                 }
             }
+
+            pips.AddRange(visitedPoints.Values);
         }
 
         public void GenerateLevel(int lineCount)
