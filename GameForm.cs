@@ -106,10 +106,17 @@ namespace BushidoBurrito.Planarity
             return new RectangleF(pip.X - size/2F, pip.Y - size/2F, size, size);
         }
 
-        private void DrawConnection(Edge<Pip> connection, Graphics graphics)
+        private void DrawConnection(Edge<Pip> connection, GameState gameState, Graphics graphics)
         {
+            var pen = new Pen(Color.White);
+
+            if (gameState.LastFoundCollision.Contains(connection))
+            {
+                pen = new Pen(Color.Red);
+            }
+
             graphics.DrawLine(
-                new Pen(Color.White),
+                pen,
                 ToPointF(connection.From),
                 ToPointF(connection.To));
         }
@@ -127,7 +134,7 @@ namespace BushidoBurrito.Planarity
 
             foreach (var connection in _gameState.Connections)
             {
-                DrawConnection(connection, _bufferedGraphics.Graphics);
+                DrawConnection(connection, _gameState, _bufferedGraphics.Graphics);
             }
 
             foreach (var pip in _gameState.Pips)

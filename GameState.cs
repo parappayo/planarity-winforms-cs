@@ -50,10 +50,31 @@ namespace BushidoBurrito.Planarity
         }
     }
 
+    public struct Collision
+    {
+        public Edge<Pip> Connection1;
+        public Edge<Pip> Connection2;
+
+        public bool Contains(Edge<Pip> connection)
+        {
+            if (Connection1 == null || Connection2 == null)
+            {
+                return false;
+            }
+
+            return Connection1.Equals(connection) ||
+                Connection2.Equals(connection);
+        }
+    }
+
     public class GameState
     {
         public readonly List<Pip> Pips;
         public readonly List<Edge<Pip>> Connections;
+
+        public bool LevelComplete { get; private set; }
+
+        public Collision LastFoundCollision { get; private set; }
 
         private void ArrangeInCircle(List<Pip> pips)
         {
@@ -98,9 +119,52 @@ namespace BushidoBurrito.Planarity
             return null;
         }
 
+        private LineSegment<float> ToLineSegment(Edge<Pip> connection)
+        {
+            return new LineSegment<float>()
+            {
+                A = connection.From.Point,
+                B = connection.To.Point
+            };
+        }
+
+        private bool Intersects(Edge<Pip> connection1, Edge<Pip> connection2)
+        {
+            return Geometry2d.Intersects(
+                ToLineSegment(connection1),
+                ToLineSegment(connection2));
+        }
+
         public void CheckWinCondition()
         {
-            throw new NotImplementedException();
+            if (LevelComplete)
+            {
+                return;
+            }
+
+            foreach (var connection1 in Connections)
+            {
+                foreach (var connection2 in Connections)
+                {
+                    if (connection1.Equals(connection2))
+                    {
+                        continue;
+                    }
+
+                    if (Intersects(connection1, connection2))
+                    {
+                        LastFoundCollision = new Collision()
+                        {
+                            Connection1 = connection1,
+                            Connection2 = connection2
+                        };
+                        return;
+                    }
+                }
+            }
+
+            LastFoundCollision = new Collision();
+            LevelComplete = true;
         }
     }
 }
